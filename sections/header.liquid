@@ -1,47 +1,43 @@
-
-<div  class="logo-or-text" >
-{{ shop.name }}
+<div class="logo-or-text">
+  {{ shop.name }}
 </div>
 
-<div class="add-menu-admin-setting" >
-    {% for link in section.settings.menu.links %}
-        {% if link.links != blank %}
-          {{ link.title }}
-          {% render 'icon_dropdown' %}
-        {% else %}
-          <a href="{{ link.url }}">{{ link.title }}</a>
-        {% endif %}
-      {% endfor %}
+<div class="add-menu-admin-setting">
+  {% for link in section.settings.menu.links %}
+    {% if link.links != blank %}
+      {{ link.title }}
+      {% render 'icon-dropdown' %}
+    {% else %}
+      <a href="{{ link.url }}">{{ link.title }}</a>
+    {% endif %}
+  {% endfor %}
 </div>
 
-<div class="add-menu-icons" >
-<a href="/cart" class="text-base" >
-   {% render 'icon0-shopping-bag'  %}
-</a>
-{%if shop.customer_accounts_enabled %}
-  {% if shop.customer_accounts_enabled  %}
+<div class="add-menu-icons">
+  <a href="/cart" class="text-base">
+    {% render 'icon-shopping-bag' %}
+  </a>
+  {% if shop.customer_accounts_enabled %}
     {% if customer %}
-        <a href="/accounts">accounts</a>
-         {{'logout' | customer_logout_link | replace : '<a' , '<a class="text-base" ' }}
-        {% else %}
-         {{'login' | customer_login_link | replace : '<a' , '<a class="text-base" ' }}
-         {{'Register' | customer_register_link | replace : '<a' , '<a class="text-base" ' }}
+      <a href="/accounts" class="text-base">Accounts</a>
+      {{ 'logout' | customer_logout_link | replace: '<a', '<a class="text-base"' }}
+    {% else %}
+      {{ 'login' | customer_login_link | replace: '<a', '<a class="text-base"' }}
+      {{ 'Register' | customer_register_link | replace: '<a', '<a class="text-base"' }}
     {% endif %}
   {% endif %}
 </div>
 
-
-
 {% schema %}
+{
+  "name": "header",
+  "settings": [
     {
-      "name": "header",
-      "settings": [
-        {
-          "type": "link_list",
-          "id": "menu",
-          "default": "main-menu",
-          "label": "Header Navigation Menu"
-        }
-      ]
+      "type": "link_list",
+      "id": "menu",
+      "default": "main-menu",
+      "label": "Header Navigation Menu"
     }
-    {% endschema %}
+  ]
+}
+{% endschema %}
