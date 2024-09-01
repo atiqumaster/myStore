@@ -1,18 +1,17 @@
 
-<div  class="git " >
-{{ shop.name }} s
+<div  class="logo-or-text" >
+{{ shop.name }}
 </div>
 
 <div class="add-menu-admin-setting" >
-{%for link in section.settings.menu.links %}
-    {% if link.links !=blank %}
-      {{link.title}}
-       {% render 'icon_dropdown' %} 
-      {% else %}
-         <a href="{{  link.url}}" >{{link.title}}</a>
-      {% endif %}
-    {% endif %}
-{%endfor%}
+    {% for link in section.settings.menu.links %}
+        {% if link.links != blank %}
+          {{ link.title }}
+          {% render 'icon_dropdown' %}
+        {% else %}
+          <a href="{{ link.url }}">{{ link.title }}</a>
+        {% endif %}
+      {% endfor %}
 </div>
 
 <div class="add-menu-icons" >
@@ -34,15 +33,15 @@
 
 
 {% schema %}
-{
-"name" : "header" , 
-"settings" : [
- {
-   "type": "link_list"
-    "id" : "menu" ,
-    "default": "main-menu",
-    "label" : "headinf Navigation Menu"
-
- }]
-}
-{%endscheme %}
+    {
+      "name": "header",
+      "settings": [
+        {
+          "type": "link_list",
+          "id": "menu",
+          "default": "main-menu",
+          "label": "Header Navigation Menu"
+        }
+      ]
+    }
+    {% endschema %}
