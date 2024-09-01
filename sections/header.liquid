@@ -1,1 +1,27 @@
 {{ shop.name }}
+
+
+
+{%for link in section.settings.menu.links %}
+    {% if link.links !=blank %}
+      {{link.title}}
+       {% render 'icon_dropdown' %} (ya snippets idr a kr add ho jaya ga)
+      {% else %}
+         <a href="{{  link.url}}" >{{link.title}}</a>
+      {% endif %}
+    {% endif %}
+{%endfor%}
+
+{% schema %}
+{
+"name" : "header" , 
+"settings" : [
+ {
+   "type": "link_list"
+    "id" : "menu" ,
+    "default": "main-menu",
+    "label" : "headinf Navigation Menu"
+
+ }]
+}
+{%endscheme %}
