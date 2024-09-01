@@ -7,7 +7,7 @@
 {%for link in section.settings.menu.links %}
     {% if link.links !=blank %}
       {{link.title}}
-       {% render 'icon_dropdown' %} (ya snippets idr a kr add ho jaya ga)
+       {% render 'icon_dropdown' %} 
       {% else %}
          <a href="{{  link.url}}" >{{link.title}}</a>
       {% endif %}
@@ -16,7 +16,7 @@
 </div>
 
 <div class="add-menu-icons" >
-<a href="/cart" class"text-base" >
+<a href="/cart" class="text-base" >
    {% render 'icon0-shopping-bag'  %}
 </a>
 {%if shop.customer_accounts_enabled %}
