@@ -10,7 +10,7 @@
   }
 </style>
 
-<div class="template-404 page-width page-margin center">
+{% comment %} <div class="template-404 page-width page-margin center">
   <p>
     {{ 'templates.404.subtext' | t }}
   </p>
@@ -20,4 +20,26 @@
   <a href="{{ routes.all_products_collection_url }}" class="button">
     {{ 'general.continue_shopping' | t }}
   </a>
-</div>
+</div> {% endcomment %}
+
+
+<h1>{{ 'section.settings.title'  }} </h1>
+<p >{{ 'section.settings.subtext_title'  }} </p>
+{% schema %}
+ {
+   "name" : "template 404",
+    "settings": [
+         {
+             "type" : "text",
+              "id" : "title",
+               "default" : "404",
+                "label" : "404 heading title"
+         } ,   {
+         "type": "text",
+        "id" : "subtext_title",
+       "default" : "page you were looking does not exist",
+      "label": "404 heading title"
+    }
+     ]
+  }
+{%  endschema %}
