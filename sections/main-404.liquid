@@ -22,24 +22,53 @@
   </a>
 </div> {% endcomment %}
 
+<div class="max-w-md" >
 
-<h1>{{ 'section.settings.title'  }} </h1>
-<p >{{ 'section.settings.subtext_title'  }} </p>
+  <div class="text-5xl font-bold my-4" >
+    <h1>{{ 'section.settings.title'  }} </h1>
+  </div>
+  <div class=" my-4" >
+    <p >{{ 'section.settings.subtext_title'  }} </p>
+  </div>
+  <div class=" my-4" >
+    {% if section.settings.button_url == blank   %}
+        {% assign shop_url = shop.secure_url %}
+      {% else  %}
+        {% assign shop_url = section.settings.button_url %}
+    {% endif %}
+    <a href="shop_url" >{{section.settings.button_label }}</a>  
+  </div>
+
+</div>
 {% schema %}
  {
    "name" : "template 404",
+    "tag" : "section",
+    "class" : "flex items-center justify-center text-center h-screen" ,
     "settings": [
          {
              "type" : "text",
-              "id" : "title",
-               "default" : "404",
-                "label" : "404 heading title"
-         } ,   {
-         "type": "text",
-        "id" : "subtext_title",
-       "default" : "page you were looking does not exist",
-      "label": "404 heading title"
-    }
+             "id" : "title",
+             "default" : "404",
+             "label" : "404 heading title"
+         } ,   
+         {
+             "type": "text",
+             "id" : "subtext_title",
+             "default" : "page you were looking does not exist",
+             "label": "404 heading title"
+         } ,
+         {
+             "type": "text",
+             "id" : "button_label",
+             "default" : "back to homepage",
+             "label": "button Label"
+         } ,  
+         {
+             "type": "url",
+             "id" : "button_url",
+             "label": "button url"
+         }
      ]
   }
 {%  endschema %}
