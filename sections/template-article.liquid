@@ -1,12 +1,23 @@
-<h1>{{article.title}}</h1>
-{% if section.settings.enable_author %}
-  <small>{{article.author}}</small>
-{% endif  %}
-{% if section.settings.enable_published_date %}
-  <time datetime="{{article.published_at | date: '%Y-%m-%d'}}"  >{{article.published_at | date: '%Y-%m-%d'}}</time>
-{% endif  %}
-<img src="{{article.image | img_url : 'large' }}" alt="{{article.image.alt}}" width="300px" height="200px"  />
-<div class="" >{{article.content}}</div>
+{% for block in section.blocks %}
+    {% case block.type %}
+         {% when "article_title" %}
+            <h1>{{article.title}}</h1>
+         {% when "article_auhtor" %}
+            {% if section.settings.enable_author %}
+                <small>{{article.author}}</small>
+            {% endif  %}
+         {% when "article_published-date" %}
+            {% if section.settings.enable_published_date %}
+                <time datetime="{{article.published_at | date: '%Y-%m-%d'}}"  >{{article.published_at | date: '%Y-%m-%d'}}</time>
+            {% endif  %}
+         {% when "featured_image" %}
+            <img src="{{article.image | img_url : 'large' }}" alt="{{article.image.alt}}" width="300px" height="200px"  />
+         {% when "article_content" %}
+            <div class="" >{{article.content}}</div>
+        {% else %}
+    {% endcase %} 
+  {%  endfor %}
+  
 
 
 {% schema %}
@@ -33,7 +44,7 @@
             "name" : "title",
             "limit": 1
         } ,  {
-            "type": "article_auhtor",
+            "type": "article_auhtor", 
             "name" : "Author",
             "limit": 1
         } ,  {
