@@ -1,23 +1,38 @@
+
+<article>
 {% for block in section.blocks %}
     {% case block.type %}
+
          {% when "article_title" %}
+            <a href="{{blog.url}}" >{{blog.title}}</a>
             <h1>{{article.title}}</h1>
+
          {% when "article_auhtor" %}
             {% if section.settings.enable_author %}
                 <small>{{article.author}}</small>
             {% endif  %}
+
          {% when "article_published-date" %}
             {% if section.settings.enable_published_date %}
-                <time datetime="{{article.published_at | date: '%Y-%m-%d'}}"  >{{article.published_at | date: '%Y-%m-%d'}}</time>
+                <time datetime="{{article.published_at | date: '%Y-%m-%d'}}"  >{{article.published_at | date: format: 'on_date' }}</time>
             {% endif  %}
+
          {% when "featured_image" %}
-            <img src="{{article.image | img_url : 'large' }}" alt="{{article.image.alt}}" width="300px" height="200px"  />
+            {% if article.image != blank %}
+                <img src="{{article.image | img_url : 'large' }}" alt="{{article.image.alt}}" width="300px" height="200px"  />
+           {% else %}
+                {% assign placeholder_image = 'lifestyle-2' %}
+                {{ placeholder_image | placeholder_svg_tag: 'w-full h-80 object-cover' }}
+           {% endif %}
+
          {% when "article_content" %}
             <div class="" >{{article.content}}</div>
+
         {% else %}
     {% endcase %} 
   {%  endfor %}
   
+  </article>
 
 
 {% schema %}
