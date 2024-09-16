@@ -38,6 +38,15 @@
       <div id="comments" >
          {% if article.comments.count > 0 %}
              <h1>See What People Are Saying</h1>
+             {%  paginate article.comments by 3 %}  
+                {% for   comment in article.comments  %}
+                    <div>
+                        <span class="comment-author" >{{comment.author}}</span>
+                        <span>{{comment.created_at | date: format: "default"  }}</span>
+                        <p>{{comment.content}}</p>
+                    </div>
+                {% endfor %}
+             {% endpaginate %} 
          {% else %}
           there are no comment
          {% endif %}
