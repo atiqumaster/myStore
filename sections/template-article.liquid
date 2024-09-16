@@ -34,6 +34,37 @@
   
   </article>
 
+   {% if blog.comments_enabled? %}
+      <div id="comments" >
+         {% if article.comments.count > 0 %}
+             <h1>See What People Are Saying</h1>
+         {% else %}
+          there are no comment
+         {% endif %}
+      </div>
+      <div id="comment_form" >
+        {% form 'new_comment' ,  article   %}
+            <div class="flex_1 mx-auto" >
+               <div>
+                 <label for="comment_author" >Name</label>
+                 <input type="text" name="comment[author]" id="comment_author" placeholder="Talha Gil" required />
+               </div>
+               <div>
+                 <label for="comment_email" >Email</label>
+                 <input type="email" name="comment[email]" id="comment_email" placeholder="talha@gmail.com" required />
+               </div>
+               <div>
+                <label for="comment_content" >Comment</label>
+                <textarea name="comment[body]" id="comment_content" placeholder="talha@gmail.com" required ></textarea>
+              </div>
+              <div>
+                <input type="submit" value="Post comment" />
+              </div>
+            </div>
+        {% endform %} 
+      </div>
+    {% endif %}
+
 
 {% schema %}
  {
