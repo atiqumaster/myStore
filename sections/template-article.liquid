@@ -1,32 +1,35 @@
 
-<article>
+<article itemscope itemtype="http://schema.org/BlogPosting" >
 {% for block in section.blocks %}
     {% case block.type %}
 
          {% when "article_title" %}
             <a href="{{blog.url}}" >{{blog.title}}</a>
-            <h1>{{article.title}}</h1>
+            <h1 itemprop="headline" >{{article.title}}</h1>
 
          {% when "article_auhtor" %}
+            <div itemscope itemprop="http://schema.org/BlogPosting" >
             {% if section.settings.enable_author %}
-                <small>{{article.author}}</small>
+                <small itemprop="author" >{{article.author}}</small>
             {% endif  %}
+            </div>
 
          {% when "article_published-date" %}
             {% if section.settings.enable_published_date %}
-                <time datetime="{{article.published_at | date: '%Y-%m-%d'}}"  >{{article.published_at | date: format: 'on_date' }}</time>
+                <time itemprop="dateCreated datePublished" datetime="{{article.published_at | date: '%Y-%m-%d'}}"  >{{article.published_at | date: format: 'on_date' }}</time>
             {% endif  %}
 
          {% when "featured_image" %}
+            <div itemprop="image" >
             {% if article.image != blank %}
                 <img src="{{article.image | img_url : 'large' }}" alt="{{article.image.alt}}" width="300px" height="200px"  />
            {% else %}
                 {% assign placeholder_image = 'lifestyle-2' %}
                 {{ placeholder_image | placeholder_svg_tag: 'w-full h-80 object-cover' }}
            {% endif %}
-
+           </div>
          {% when "article_content" %}
-            <div class="" >{{article.content}}</div>
+            <div itemprop="articleBody" >{{article.content}}</div>
 
         {% else %}
     {% endcase %} 
@@ -89,6 +92,34 @@
       </div>
     {% endif %}
 
+    {%  comment  %}  {% endcomment %}
+    <script type="applcation/id+json" >
+       {
+        "@context": "http://schema.org" ,
+        "@type" : "BlogPosting" ,
+         "headline" : {{article.title | json }} ,
+         "articlebody" : {{article.content  |  strip_html | json }} ,
+         {% if  article.excerpt != blank %}
+            "description" : {{article.excerpt | strip_html | json }},
+         {% endif  %}
+         {% if article.image %}
+            "image" : [
+                {{article.image | img_url : 'medium' |  prepend: 'https' | json }},
+            ]
+        {% endif %}
+        "datepublished" : {{article.published_at | date: format: "default " | json }} ,
+        "datecreated" : {{article.created_at | date: format: "default " | json }} ,
+        "author" : {
+            "@type" : "Person",
+            "name" : {{article.author | json }}
+
+        },
+        "publisher" :  {
+            "@type" : "Organization" ,
+            "name" : {{ shop.name | json }}
+        }
+       }
+    </script>
 
 {% schema %}
  {
