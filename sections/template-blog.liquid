@@ -1,26 +1,39 @@
 {%  paginate  blog.articles by section.settings.number_of_blog_posts %}
+   <h1>{{blog.title}}</h1>
+   <div class="blog-archieve-wrapper" style="display: flex; flex-wrap: wrap; " >
     {% for article in blog.articles %}
         <div>
           {% if article.image %}
-             <img src="{{ article.image |  img_url: 'medium'  }}"  alt="{{article.image.alt }}" width="200px" height="200px" />
+            <a href="{{article.url}}" >
+              <img src="{{ article.image |  img_url: 'medium'  }}"  alt="{{article.image.alt }}" width="200px" height="200px" />
+            </a>
             {% else %}
                {{ 'image' |  placeholder_svg_tag: "w-20" }}
           {% endif %}
           <h1>{{article.title}}</h1>
            {% if article.excerpt.size > 0 %}
+             <p>{{article.excerpt  |  strip_html |  truncatewords: 20}}</p>
              {% else %}
               <p>
                 {{ article.content |  strip_html |  truncatewords: 20 }}
               </p>
            {% endif %}
+           <a href="{{article.url}}"  style="color:blue;" >{{section.settings.blog_read_more}}</a>
         </div>
     {% endfor %}
+  </div>
 {% endpaginate %}
 
 {%  schema  %}
   {
       "name" : "blog",
       "settings": [
+         {
+          "type": "text" ,
+          "id" : "blog_read_more",
+          "label": "Read Mpre Label",
+          "default": "Read more"
+         },
           {
              "type": "range",
              "id" : "number_of_blog_posts",
