@@ -1,0 +1,20 @@
+
+{% if pagination.pages > 0 %}
+    <nav>
+        {%if pagination.previous %}
+           <a href="pagination.pervious.url" > {{ pagination.pervious.title }}</a>
+        {% endif %}
+        {% for part in pagination.parts %}
+            {%if part.is_link %}
+                <a href="{{ part.url }}" >
+                 {{part.title}}
+                </a>
+              {% else %}
+                <span>{{part.title}}</span>
+            {% endif %}
+        {% endfor %}
+        {%if pagination.next %}
+           <a href="pagination.next.url" > {{ pagination.pervious.title }}</a>
+        {% endif %}
+    </nav>
+ {% endif %}
