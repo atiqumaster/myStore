@@ -2,7 +2,7 @@
 {% if pagination.pages > 0 %}
     <nav>
         {%if pagination.previous %}
-           <a href="pagination.pervious.url" > {{ pagination.pervious.title }}</a>
+           <a href="{{pagination.pervious.url}}" > {{ pagination.pervious.title }}</a>
         {% endif %}
         {% for part in pagination.parts %}
             {%if part.is_link %}
@@ -14,7 +14,7 @@
             {% endif %}
         {% endfor %}
         {%if pagination.next %}
-           <a href="pagination.next.url" > {{ pagination.pervious.title }}</a>
+           <a href="{{pagination.next.url}}" > {{ pagination.pervious.title }}</a>
         {% endif %}
     </nav>
  {% endif %}
