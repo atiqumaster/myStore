@@ -32,12 +32,12 @@
 </div>
 
 <div class="add-menu-icons">
-  <a href="/cart" class="text-base">
+  <a href="{{routes.cart_url}}" class="text-base">
     {% render 'icon-shopping-bag' %}
   </a>
   {% if shop.customer_accounts_enabled %}
     {% if customer %}
-      <a href="/accounts" class="text-base">Accounts</a>
+      <a href="{{routes.account_url}}" class="text-base">Accounts</a>
       {{ 'logout' | customer_logout_link | replace: '<a', '<a class="text-base"' }}
     {% else %}
       {{ 'login' | customer_login_link | replace: '<a', '<a class="text-base"' }}

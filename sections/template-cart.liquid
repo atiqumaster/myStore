@@ -1,0 +1,85 @@
+{% if cart.item_count > 0 %}
+    <div class="cart-product-exist" >
+        <h1>Your Cart </h1>
+        <a href="{{routes.all_products_collection_url}}" >Continue Shopping</a> 
+        <form action="{{routes.cart_url}}" method="post"  novalidate > 
+             <table class="cart-table" >
+               <thead>
+                 <th>Product</th>
+                 <th>Quality</th>
+                 <th>Total Price</th>
+               </thead>
+               <tbody>
+                 {% for item in cart.items %}
+                     <tr>
+                        <td>
+                            <a href="{{item.url}}" >
+                                {% if item.image %}
+                                      <img src="{{item.image | img_url: 'small'}}"  alt="{{item.title |  escape }}" width="200px" height="200px" />
+                                    {% else %}
+                                      {{ 'product-1' |  placeholder_svg_tag: 'w-20 h-20 object-cover' }}
+                                {% endif %}
+                            </a>
+                        </td>
+                        <td>
+                            <div class="cart-item-remove-and-title" >
+                              <a href="{{item.url}}" >{{ item.product.title |  truncatewords: 4 }}</a>
+                              <span>{{ item.variant.title }}</span>
+                              <a href="{{routes.cart_change_url}}?line={{forloop.index}}&quantity=0" >Remove</a>
+                             </div>
+                        </td>
+                        <td>
+                            <input type="number" name="updates[]" value="{{item.quantity}}" min="1" id="updates_{{forloop.index}}" >
+                        </td>
+                        <td>
+                            {{item.line_price | money }}
+                        </td>
+                     </tr>
+                 {% endfor %}
+               </tbody>
+             </table>
+             <div class="shopify-cart">
+                   <label>Notes</label>
+                   <textarea name="note" id="card_notes" cols="30" rows="10"  ></textarea>
+                   <h2>SubTotal : {{cart.total_price |  money }}</h2>
+                   <div>
+                     <button type="button" name="update" >Update</button>
+                     <button type="button" name="checkout"  >Checkout</button>
+                   </div>
+
+             </div>
+        </form>
+     </div> 
+
+    {% else %}
+      <div class="cart-no-product" >
+        <h1>Your Cart is empty</h1>
+        <a href="{{routes.all_products_collection_url}}" >Continue Shopping</a> // routes ka global variable dy kr hm ny is prduct arcieve ka link getr kr liya
+     </div> 
+   {% endif %}
+
+
+
+   {% schema  %} 
+    {
+      "name" : "Template Cart",
+    "blocks" : [
+     {
+       "type": "subtotal",
+       "name" : "subtotal" ,
+       "limit" : 1
+     },
+     {
+       "type" : "update_button" ,
+       "name" : "update button",
+       "limit" : 1
+     } , {
+       "type" : "checkout_button" ,
+       "name" : "checkout button",
+       "limit" : 1
+     }
+    ]
+    }
+  
+   {% endschema %}
+   
