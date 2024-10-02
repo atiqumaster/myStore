@@ -41,11 +41,18 @@
              <div class="shopify-cart">
                    <label>Notes</label>
                    <textarea name="note" id="card_notes" cols="30" rows="10"  ></textarea>
+                                  
+                {% for block in section.blocks %}
+                  {% case block.type %}
+                    {% when 'subtotal' %}
                    <h2>SubTotal : {{cart.total_price |  money }}</h2>
-                   <div>
+                   {% when 'update_button' %}
                      <button type="button" name="update" >Update</button>
+                    {% when 'checkout_button' %}
                      <button type="button" name="checkout"  >Checkout</button>
-                   </div>
+                   {% else %}
+                    {% endcase %}
+                   {% endfor %}
 
              </div>
         </form>
