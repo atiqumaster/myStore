@@ -1,8 +1,15 @@
+<div>
 {% paginate collection.products by 4 %}
+     <h1>{{collection.title}}</h1>
     {% for product in collection.products %}
+        <div>
+          <a href="{{product.url}}" >
          {% if  product.featured_image %}
             <img src="{{product.featured_image |  img_url: 'medium' }}" alt="{{product.featured_image.alt}}"  width="200px" height="200px"/>
          {% endif %}
+          </a>
+         </div>
+       
          <a href="{{product.url}}" > {{product.title}} </a>
         <span>{{product.vendor}}</span>
         <p>{{ product.price | money}} </p>
@@ -11,3 +18,4 @@
     {% endfor %}
     {%  render 'pagination' , pagination: paginate %} 
 {% endpaginate %}
+</div>
