@@ -2,17 +2,8 @@
 {% paginate collection.products by 4 %}
      <h1>{{collection.title}}</h1>
     {% for product in collection.products %}
-        <div>
-          <a href="{{product.url}}" >
-         {% if  product.featured_image %}
-            <img src="{{product.featured_image |  img_url: 'medium' }}" alt="{{product.featured_image.alt}}"  width="200px" height="200px"/>
-         {% endif %}
-          </a>
-         </div>
-       
-         <a href="{{product.url}}" > {{product.title}} </a>
-        <span>{{product.vendor}}</span>
-        <p>{{ product.price | money}} </p>
+      {%  render 'product-card' , product_product : product %}   // product parameter & other is product value same name jo mara idr use ho raha ha wo snippet ma bi hona cyhia mtlb
+      product_product  use kiya tu snippets k idr bi yahi use ho ga
     {% else %}
       <p>no product available</p>
     {% endfor %}
