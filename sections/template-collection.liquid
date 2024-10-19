@@ -1,5 +1,5 @@
 <div>
-{% paginate collection.products by 4 %}
+{% paginate collection.products by section.settings.number_of_products_per_page %}
      <h1>{{collection.title}}</h1>
     {% for product in collection.products %}
       {%  render 'product-card' , product_product : product %}   // product parameter & other is product value same name jo mara idr use ho raha ha wo snippet ma bi hona cyhia mtlb
@@ -10,3 +10,18 @@
     {%  render 'pagination' , pagination: paginate %} 
 {% endpaginate %}
 </div>
+
+{%  schema  %} 
+  {
+    "name": "Template Collection",
+    "settings": [
+      {
+        "type": "number",
+        "id" : "number_of_products_per_page",
+        "default": 3,
+        "label": "Number of Products per page"
+
+      }
+    ]
+  }
+ {% endschema %} 
