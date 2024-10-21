@@ -1,39 +1,38 @@
-// url ma collections likya gyia tu ya show ho gi  f.e domain-name/collections
 <div class="list-template-collection">
-  <h1>{{ section.settings.title  }}</h1>
+  <h1>{{ section.settings.title }}</h1>
   <div class="collection_list_product">
     {% for collection in collections %}
       {% if collection.all_products_count > 0 %}
+        <div>
+          <a href="{{ collection.url }}">
+            <div>
+              {% if collection.featured_image != blank %}
+                {% assign collection_image = collection.featured_image %}
+              {% else %}
+                {% assign collection_image = collection.products.first.image %}
+              {% endif %}
+              <img src="{{ collection_image | img_url: 'medium' }}" alt="{{ collection.title | escape }}" title="{{ collection.title | escape }}" width="200" height="200" />
+            </div>
+          </a>
           <div>
-             <a href="{{collection.url}}" >
-                <div>
-                     {% if collection.featured_image != blank %}
-                         {%  assign collection_image = collection.featured_image    %}
-                         {% else %}
-                         {%  assign collection_image = collection.products.first.image   %} 
-                     {% endif %}
-                     <img src="{{collection_image | img_url: 'medium'}}" alt="{{collection.title |  escape}}" width="200px" height="200px" />
-                </div>
-             </a>
-             <div>
-                 <h1>{{ collection.title }}</h1>
-             </div>
+            <h2>{{ collection.title }}</h2>
           </div>
+        </div>
       {% endif %}
     {% endfor %}
   </div>
 </div>
 
-{%  schema  %}  
-   {
-     "name": "Template List Collection" ,
-     "settings": [
-        {
-            "type": "text" ,
-            "id" : "title",
-              "default" : "Collections",
-              "label": "Title"
-        }
-     ]
-   }
-{% endschema %} 
+{% schema %}
+{
+  "name": "Template List Collection",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "default": "Collections",
+      "label": "Title"
+    }
+  ]
+}
+{% endschema %}
