@@ -7,8 +7,8 @@
           <div>
              <a href="{{collection.url}}" >
                 <div>
-                     {% if collection.featured_image !=blank %}
-                         {{%  assign collection_image = collection.featured_image    %}}
+                     {% if collection.featured_image != blank %}
+                         {%  assign collection_image = collection.featured_image    %}
                          {% else %}
                          {%  assign collection_image = collection.products.first.image   %} 
                      {% endif %}
