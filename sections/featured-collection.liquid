@@ -1,1 +1,49 @@
-<h1>Featured Collections products</h1>
+
+<div class="featured-collection-title" >
+  <h1> {{section.settings.title}}</h1>
+</div>
+
+{% for product in section.settings.featured_collection.products limit: section.settings.number_of_products_to_show %}
+    {% render 'product-card' , product_product: product %}
+    {% else %}
+       {% for product in section.settings.featured_collection.products %}
+          {% render 'product-card-placeholder' %}
+       {% endfor %}   
+{% endfor %}
+
+{% schema %}
+   {
+      "name" : "Featured Collection",
+      "settings" : [
+         {
+             "type" : "text" ,
+             "id" : "title",
+             "label" : "Title",
+             "default": "Featured Collection"
+           }  ,
+           {
+              "type" : "collection" ,
+              "id" : "featured_collection" ,
+              "label" : "Collection"
+            } ,
+            {
+                "type": "range" ,
+                "id" : "number_of_products_to_show" , 
+                "max" : 12 ,
+                "min": 4,
+                "default" : 4 ,
+                "label": "Number of Product to show"
+            } ,
+           
+     
+        ],
+        "presets" : [    // allow easily add section in any page provide section widgets with this name
+                {
+                    "name" : "Featured Collection"
+                }
+            ]
+        
+    }
+
+
+{% endschema %}
