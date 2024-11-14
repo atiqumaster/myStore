@@ -1,10 +1,10 @@
 <div>
     <div class="product-media">
         {% for media in product.media %}
-            <div class="overflow-hidden" >
-               {%  render 'product-media' ,  media: media %} 
+            <div class="overflow-hidden">
+                {% render 'product-media', media: media %}
             </div>
         {% endfor %}
     </div>
-    <div class="product-info" ></div>
+    <div class="product-info"></div>
 </div>

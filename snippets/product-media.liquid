@@ -1,12 +1,14 @@
-{% case media.media_type %}
- {%  when 'image' %}
-    <img src="{{ media |  image_url:'large' }}" />
- {%  when 'external-video' %}
-     {{ media |  external_video_tag: class: 'w-full object-cover' }}
- {%  when 'video' %}
-     {{ media |  video_tag:controls:true , class: 'w-full object-cover' }}
- {%  when 'model' %}
-    {{ media |  model_viewer_tag }}
-    {% else %}
-    {{ media |  media_tag }}
-{% endcase %}
+{% for media in product.media %}
+    {% case media.media_type %}
+        {% when 'image' %}
+            <img src="{{ media | image_url: 'large' }}" />
+        {% when 'external-video' %}
+            {{ media | external_video_tag: class: 'w-full object-cover' }}
+        {% when 'video' %}
+            {{ media | video_tag: controls: true, class: 'w-full object-cover' }}
+        {% when 'model' %}
+            {{ media | model_viewer_tag }}
+        {% else %}
+            {{ media | media_tag }}
+    {% endcase %}
+{% endfor %}
