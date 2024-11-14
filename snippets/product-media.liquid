@@ -1,14 +1,14 @@
-{% for media in product.media %}
+<div class="media-wrapper">
     {% case media.media_type %}
         {% when 'image' %}
-            <img src="{{ media | image_url: 'large' }}" />
+            <img src="{{ media | img_url: 'large' }}" width="200px" height="200px" class="media-image" />
         {% when 'external-video' %}
-            {{ media | external_video_tag: class: 'w-full object-cover' }}
+            {{ media | external_video_tag: class: 'media-video' }}
         {% when 'video' %}
-            {{ media | video_tag: controls: true, class: 'w-full object-cover' }}
+            {{ media | video_tag: controls: true, class: 'media-video' }}
         {% when 'model' %}
             {{ media | model_viewer_tag }}
         {% else %}
             {{ media | media_tag }}
     {% endcase %}
-{% endfor %}
+</div>
