@@ -12,3 +12,23 @@
             {{ media | media_tag }}
     {% endcase %}
 </div>
+<style>
+    .product-media {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+    }
+    .media-wrapper {
+        overflow: hidden;
+        width: 100%;
+        max-width: 400px; /* Set a max width for each media item */
+        margin: 0 auto;
+    }
+    .media-image,
+    .media-video {
+        width: 100%;
+        height: auto;
+        object-fit: cover;
+        border-radius: 8px;
+    }
+</style>
