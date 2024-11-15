@@ -1,3 +1,9 @@
+<style>
+    .swiper-button-prev, .swiper-button-next { color: black; top: auto !important; height: 20px; }
+    .swiper-button-next::after , .swiper-button-prev::after { font-size: 20px; }
+    .swiper-pagination-bullet-active{ background-color: black; !important}
+    
+</style>
 <div>
     <div class="product-media">
         {% for media in product.media %}
@@ -6,5 +12,29 @@
             </div>
         {% endfor %}
     </div>
-    <div class="product-info"></div>
+    <div class="product-info">
+        <div class="swiper" >
+            {% for media in product.media %}
+                 <div class="swiper-slide" >
+                   {%  render 'product-media' , media: media %} 
+                 </div>
+            {% endfor %}   
+        </div>
+        <div class="swiper-pagination" ></div>
+        <div class="swiper-button-prev" ></div>
+        <div class="swiper-button-next" ></div>
+    </div>
 </div>
+
+<script>
+     const swiper = new Swiper('.swiper' , {
+         direction : "horizontal",
+         pagination :{
+             el: '.swiper-pagination'
+         },
+         navigation: {
+            preE1: '.swiper-button-prev',
+            nextE1: '.swiper-button-next'
+         }
+     })
+</script>
