@@ -1,10 +1,19 @@
 <style>
-    .swiper-button-prev, .swiper-button-next { color: black; top: auto !important; height: 20px; }
-    .swiper-button-next::after , .swiper-button-prev::after { font-size: 20px; }
-    .swiper-pagination-bullet-active{ background-color: black; !important}
-    
+    .swiper-button-prev, .swiper-button-next {
+        color: black;
+        top: auto !important;
+        height: 20px;
+    }
+    .swiper-button-next::after, .swiper-button-prev::after {
+        font-size: 20px;
+    }
+    .swiper-pagination-bullet-active {
+        background-color: black !important;
+    }
 </style>
-{%  assign selected_variant = product.selected_or_first_available_variant  %} 
+
+{% assign selected_variant = product.selected_or_first_available_variant %}
+
 <div>
     <div class="product-media">
         {% for media in product.media %}
@@ -13,62 +22,90 @@
             </div>
         {% endfor %}
     </div>
+
     <div class="product-info">
         {% form 'product', product %}
-            <span>{{ product.vendor }}</span>
-            <h1>{{ product.title }}</h1>
-            <span>{{ selected_variant.compare_at_price | money }}</span>
-            <span>{{ selected_variant.price | money }}</span>
-            {% if selected_variant.price < selected_variant.compare_at_price %}
-                <span>Sale</span>
-            {% endif %}    
-            <div class="my-3">
-                {% unless product.has_only_default_variant %}
-                    <div data-url="{{ product.url }}" data-section="{{ section.id }}">
-                        {% for option in product.options_with_values %}
-                            <label for="Option-{{ section.id }}-{{ forloop.index0 }}">{{ option.name }}</label>
-                            <div>
-                                <select name="Options[{{ option.name | escape }}]" id="Option-{{ section.id }}-{{ forloop.index0 }}">
-                                    {% for value in option.values %}
-                                        <option value="{{ value | escape }}"
-                                            {% if option.selected_value == value %} selected="selected" {% endif %}>
-                                            {{ value }}
-                                        </option>
+            <input type="hidden" name="id" value="{{ selected_variant.id }}" />
+            
+            {% for block in section.blocks %}
+                {% case block.type %}
+                    {% when 'vendor' %}
+                        <span>{{ product.vendor }}</span>
+                    {% when 'title' %}
+                        <h1>{{ product.title }}</h1>
+                    {% when 'price' %}
+                        <span>{{ selected_variant.compare_at_price | money }}</span>
+                        <span>{{ selected_variant.price | money }}</span>
+                        {% if selected_variant.price < selected_variant.compare_at_price %}
+                            <span>Sale</span>
+                        {% endif %}
+                    {% when 'variant_selector' %}
+                        <div class="my-3">
+                            {% unless product.has_only_default_variant %}
+                                <div data-url="{{ product.url }}" data-section="{{ section.id }}">
+                                    {% for option in product.options_with_values %}
+                                        <label for="Option-{{ section.id }}-{{ forloop.index0 }}">{{ option.name }}</label>
+                                        <div>
+                                            <select name="Options[{{ option.name | escape }}]" id="Option-{{ section.id }}-{{ forloop.index0 }}">
+                                                {% for value in option.values %}
+                                                    <option value="{{ value | escape }}"
+                                                        {% if option.selected_value == value %} selected="selected" {% endif %}>
+                                                        {{ value }}
+                                                    </option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
                                     {% endfor %}
-                                </select>
-                            </div>
-                        {% endfor %}
-                    </div>
-                {% endunless %}
-            </div> 
-            <div>
-                <label for="Quantity-{{ section.id }}">Quantity</label>
-                <input type="number" name="quantity" id="Quantity-{{ section.id }}" value="1" min="1" />
-            </div>
-            <div>
-                <p>{{ product.description }}</p>
-            </div>
-            <button type="submit" name="add" {% if product.selected_variant == false %} disabled {% endif %}>
-                {% if product.selected_variant.available == false %}
-                    Sold Out
-                {% else %}
-                    Add to cart
-                {% endif %}
-            </button>
+                                </div>
+                            {% endunless %}
+                        </div>
+                    {% when 'quantity' %}
+                        <div>
+                            <label for="Quantity-{{ section.id }}">Quantity</label>
+                            <input type="number" name="quantity" id="Quantity-{{ section.id }}" value="1" min="1" />
+                        </div>
+                    {% when 'description' %}
+                        <div>
+                            <p>{{ product.description }}</p>
+                        </div>
+                    {% when 'checkout_button' %}
+                        <button type="submit" name="add" {% if product.selected_variant == false %} disabled {% endif %}>
+                            {% if product.selected_variant.available == false %}
+                                Sold Out
+                            {% else %}
+                                Add to cart
+                            {% endif %}
+                        </button>
+                {% endcase %}
+            {% endfor %}
         {% endform %}
     </div>
-    
 </div>
 
+{% schema %}
+{
+    "name": "product",
+    "blocks": [
+        { "type": "vendor", "name": "Vendor", "limit": 1 },
+        { "type": "title", "name": "Title", "limit": 1 },
+        { "type": "price", "name": "Price", "limit": 1 },
+        { "type": "variant_selector", "name": "Variant Selector", "limit": 1 },
+        { "type": "quantity", "name": "Quantity", "limit": 1 },
+        { "type": "description", "name": "Description", "limit": 1 },
+        { "type": "checkout_buttons", "name": "Checkout Button", "limit": 1 }
+    ]
+}
+{% endschema %}
+
 <script>
-     const swiper = new Swiper('.swiper' , {
-         direction : "horizontal",
-         pagination :{
-             el: '.swiper-pagination'
-         },
-         navigation: {
-            preE1: '.swiper-button-prev',
-            nextE1: '.swiper-button-next'
-         }
-     })
+    const swiper = new Swiper('.swiper', {
+        direction: "horizontal",
+        pagination: {
+            el: '.swiper-pagination'
+        },
+        navigation: {
+            prevEl: '.swiper-button-prev',
+            nextEl: '.swiper-button-next'
+        }
+    });
 </script>
