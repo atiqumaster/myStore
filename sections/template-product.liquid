@@ -24,7 +24,7 @@
     </div>
 
     <div class="product-info">
-        {% form 'product', product %}
+        {% form 'product', product , id: 'product-form' , nonvalidate: 'nonvalidate' %}
             <input type="hidden" name="id" value="{{ selected_variant.id }}" />
             
             {% for block in section.blocks %}
@@ -33,7 +33,7 @@
                         <span>{{ product.vendor }}</span>
                     {% when 'title' %}
                         <h1>{{ product.title }}</h1>
-                    {% when 'price' %}
+                    {% when 'price' id ="price-{{section.id}}" %}
                         <span>{{ selected_variant.compare_at_price | money }}</span>
                         <span>{{ selected_variant.price | money }}</span>
                         {% if selected_variant.price < selected_variant.compare_at_price %}
@@ -55,6 +55,9 @@
                                                 {% endfor %}
                                             </select>
                                         </div>
+                                        <script type="application/json" >
+                                          {{product.variants | json }}
+                                        </script>
                                     {% endfor %}
                                 </div>
                             {% endunless %}
@@ -108,4 +111,70 @@
             nextEl: '.swiper-button-next'
         }
     });
+</script>
+<script>
+    class VariantSelector extends HTMLElement {
+  constructor() {
+    super();
+    this.addEventListener("change", this.onVariantChange);
+  }
+
+  onVariantChange() {
+    this.getSelectedOptions();
+    this.getSelectedVariant();  
+    if (this.currentVariant) {
+      this.updateURL();
+      this.updateFormID();
+      this.updatePrice();
+    }
+  }
+
+  getSelectedOptions() {
+    this.options = Array.from(this.querySelectorAll('select'), (select) => select.value);
+    console.log(this.options);
+  }
+
+  getVariantJSON() {
+    // Fixed typo: 'varaintData' -> 'variantData'
+    this.variantData = this.variantData || JSON.parse(this.querySelector('[type="application/json"]').textContent);
+    return this.variantData;
+  }
+
+  getSelectedVariant() {
+    // Fixed typo: 'varaint' -> 'variant'
+    this.currentVariant = this.getVariantJSON().find((variant) => {
+      const finding = !variant.options.map((option, index) => {
+        return this.options[index] === option;
+      }).includes(false);
+
+      if (finding) return variant;
+    });
+    console.log(this.currentVariant);       
+  }
+
+  updateURL() {
+    if (!this.currentVariant) return;
+    window.history.replaceState({}, '', `${this.dataset.url}?variant=${this.currentVariant.id}`);
+  }
+
+  updateFormID() {
+    const formInput = document.querySelector('#product-form').querySelector('input[name="id"]');
+    formInput.value = this.currentVariant.id;
+  }
+
+  updatePrice() {
+    // Fixed syntax error in the fetch URL
+    fetch(`${this.dataset.url}?variant=${this.currentVariant.id}&section_id=${this.dataset.section}`).then((response) => 
+      response.text()).then((responseText) => {
+        const id = `price-${this.dataset.section}`;
+        const html = new DOMParser().parseFromString(responseText, 'text/html');
+        const oldPrice = document.getElementById(id);
+        const newPrice = html.getElementById(id);
+        if (oldPrice && newPrice) oldPrice.innerHTML = newPrice.innerHTML;
+      });
+  }
+}
+
+customElements.define('variant-selector', VariantSelector);
+
 </script>
