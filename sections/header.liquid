@@ -32,7 +32,7 @@
 </div>
 
 <div class="add-menu-icons">
-    <button class="whitespace-norwap" >
+    <button class="whitespace-norwap" type="button" >
        {%  render 'icon-search' %} 
     </button>
   <a href="{{routes.cart_url}}" class="text-base">
@@ -47,6 +47,19 @@
       {{ 'Register' | customer_register_link | replace: '<a', '<a class="text-base"' }}
     {% endif %}
   {% endif %}
+</div>
+
+<button type="button"  >
+
+{% render 'icon-closed' %}
+</button>
+<div>
+<form action="{{routes.serch_url}}" method="get" >
+ <input type="search" name="q" placeholder="search" />
+ <button type="submit">
+   {% render 'icon-search' %}
+</button>
+</form>
 </div>
 
 {% schema %}
