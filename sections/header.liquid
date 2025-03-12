@@ -49,18 +49,19 @@
   {% endif %}
 </div>
 
-<button type="button"  >
+<button type="button">
+  {% include 'icon-closed' %}
+</button>
 
-{% render 'icon-closed' %}
-</button>
 <div>
-<form action="{{routes.serch_url}}" method="get" >
- <input type="search" name="q" placeholder="search" />
- <button type="submit">
-   {% render 'icon-search' %}
-</button>
-</form>
+  <form action="{{ routes.search_url }}" method="get">
+    <input type="search" name="q" placeholder="search" />
+    <button type="submit">
+      {% include 'icon-search' %}
+    </button>
+  </form>
 </div>
+
 
 {% schema %}
 {
